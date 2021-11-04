@@ -1,6 +1,7 @@
 package com.nacho.app.model.useCase.bill;
 
 
+import com.nacho.app.model.ProductEntity;
 import com.nacho.app.repository.mapper.ProductMapperImpl;
 import com.nacho.app.service.product.ProductServiceImpl;
 import model.Product;
@@ -18,10 +19,10 @@ public class UpdateBillUseCase {
         this.productMapper = productMapper;
     }
 
-    public Mono<Product> dispacth(com.nacho.app.model.Product product){
+    public Mono<Product> dispacth(ProductEntity productEntity){
 
-        return productService.getProductByName(product.getName()).flatMap(producToUpdate ->
-                productService.updateProduct(product)
+        return productService.getProductByName(productEntity.getName()).flatMap(producToUpdate ->
+                productService.updateProduct(productEntity)
         ).map(productUpdated -> productMapper.productToProductApi(productUpdated));
     }
 }

@@ -6,12 +6,11 @@ import com.nacho.app.exception.PersonNotFoundException;
 import com.nacho.app.model.Person;
 import com.nacho.app.repository.PersonRepository;
 import com.nacho.app.repository.mapper.PersonMapperImpl;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 
 @Service
@@ -29,23 +28,16 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public  Mono<Person> createPerson(Person person) {
 
-        if(personRepository.findByDni(person.getDni()).block() != null){
+        if(ObjectUtils.isNotEmpty(personRepository.findByDni(person.getDni()))){
 
             throw new PersonDniDuplicateException();
         }
-        Mono<Person> personCreated = personRepository.save(person);
-        return personCreated;
+        return personRepository.save(person);
     }
 
     @Override
     public Mono<Person> updatePerson(Person person) {
-
-        Person personToUpdate = personRepository.findByDni(person.getDni()).block();
-
-        personToUpdate = personMapper.personToPerson(personToUpdate, person);
-        Mono<Person> personUpdated =  personRepository.save(personToUpdate);
-
-        return personUpdated;
+        return personRepository.save(person);
     }
 
     @Override
@@ -61,9 +53,9 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public Mono<Person> getPersonByDni(String dni) {
 
-        Person person = personRepository.findByDni(dni).block();
+        Mono<Person> person = personRepository.findByDni(dni);
 
-        if (person != null){
+        if (ObjectUtils.isNotEmpty(person)){
             return personRepository.findByDni(dni);
         } else {
             throw new PersonNotFoundException();
@@ -73,9 +65,10 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public Flux<Person> getPersonByName(String name) {
 
-        List<Person> personList = personRepository.findByName(name).collectList().block();
-        if (personList != null){
-            return  personRepository.findByName(name);
+        Flux<Person> personList = personRepository.findByName(name);
+
+        if (ObjectUtils.isNotEmpty(personList)){
+            return personList;
         } else {
             throw new PersonNotFoundException();
         }

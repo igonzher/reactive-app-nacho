@@ -29,11 +29,8 @@ public class CreateCompleteBillUseCase {
     }
 
     public Mono<Bill> dispacth(com.nacho.app.model.Bill bill){
-        return personService.createPerson(bill.getPerson()).flatMap(Void ->
-                    productService.createProduct(bill.getProduct())
-                ).flatMap(Void ->
-                    billService.createBill(bill)
-                ).map(billCreated -> billMapper.billToBillApi(billCreated));
-
+       return personService.createPerson(bill.getPerson())
+               .then(productService.createProduct(bill.getProductEntity()))
+                    .then(billService.createBill(bill)).map(billCreated -> billMapper.billToBillApi(billCreated));
     }
 }

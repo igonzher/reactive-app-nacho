@@ -1,6 +1,7 @@
 package com.nacho.app.model.useCase.product;
 
 
+import com.nacho.app.model.ProductEntity;
 import com.nacho.app.repository.mapper.ProductMapperImpl;
 import com.nacho.app.service.product.ProductServiceImpl;
 import model.Product;
@@ -18,10 +19,13 @@ public class UpdateProductUseCase {
         this.productMapper = productMapper;
     }
 
-    public Mono<Product> dispacth(com.nacho.app.model.Product product){
+    public Mono<Product> dispacth(ProductEntity productEntity){
 
-        return productService.getProductByName(product.getName()).flatMap(producToUpdate ->
-                productService.updateProduct(product)
-        ).map(productUpdated -> productMapper.productToProductApi(productUpdated));
+        return productService.getProductByName(productEntity.getName()).map(productToCreate ->
+                    productMapper.productToProduct(productToCreate, productEntity)
+                ).flatMap(productToCreate ->
+                        productService.updateProduct(productToCreate)
+                    ).map(productUpdated -> productMapper.productToProductApi(productUpdated));
+
     }
 }

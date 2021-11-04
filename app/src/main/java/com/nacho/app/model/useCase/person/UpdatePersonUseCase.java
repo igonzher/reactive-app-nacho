@@ -19,8 +19,10 @@ public class UpdatePersonUseCase {
     }
 
     public Mono<Person> dispacth(com.nacho.app.model.Person person){
-        return personService.getPersonByDni(person.getDni()).flatMap(personToUpdate ->
-                personService.updatePerson(person)
-                ).map(personUpdated -> personMapper.personToPersonApi(personUpdated));
+        return personService.getPersonByDni(person.getDni()).map(personToCreate ->
+                    personMapper.personToPerson(personToCreate, person)
+                ).flatMap(personToCreate ->
+                        personService.createPerson(personToCreate)
+                    ).map(personUpdated -> personMapper.personToPersonApi(personUpdated));
     }
 }

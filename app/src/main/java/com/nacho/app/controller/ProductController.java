@@ -1,6 +1,7 @@
 package com.nacho.app.controller;
 
 import api.ProductApi;
+import com.nacho.app.model.ProductEntity;
 import com.nacho.app.model.useCase.product.CreateProductUseCase;
 import com.nacho.app.model.useCase.product.DeleteProductUseCase;
 import com.nacho.app.model.useCase.product.GetProductUseCase;
@@ -52,15 +53,15 @@ public class ProductController implements ProductApi {
 
     @Override
     public ResponseEntity<model.Product> createProduct(@RequestBody model.Product product) {
-        com.nacho.app.model.Product productToCreate = productMapper.productApiToProduct(product);
-        Product productCreated = createProductUseCase.dispacth(productToCreate).block();
+        ProductEntity productEntityToCreate = productMapper.productApiToProduct(product);
+        Product productCreated = createProductUseCase.dispacth(productEntityToCreate).block();
         return new ResponseEntity<>(productCreated, HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<model.Product> updateProduct(@RequestBody model.Product product) {
-        com.nacho.app.model.Product productToUpdate = productMapper.productApiToProduct(product);
-        Product productCreated = updateProductUseCase.dispacth(productToUpdate).block();
+        ProductEntity productEntityToUpdate = productMapper.productApiToProduct(product);
+        Product productCreated = updateProductUseCase.dispacth(productEntityToUpdate).block();
         return new ResponseEntity<>(productCreated, HttpStatus.CREATED);
     }
 

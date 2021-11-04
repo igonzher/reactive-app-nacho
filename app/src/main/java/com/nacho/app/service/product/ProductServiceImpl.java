@@ -3,15 +3,14 @@ package com.nacho.app.service.product;
 
 import com.nacho.app.exception.ProductNameDuplicateException;
 import com.nacho.app.exception.ProductNotFoundException;
-import com.nacho.app.model.Product;
+import com.nacho.app.model.ProductEntity;
 import com.nacho.app.repository.ProductRepository;
 import com.nacho.app.repository.mapper.ProductMapperImpl;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 
 @Service
@@ -27,51 +26,46 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Mono<Product> createProduct(Product product) {
-        if (productRepository.findByName(product.getName()).block() != null){
+    public Mono<ProductEntity> createProduct(ProductEntity productEntity) {
+        if (ObjectUtils.isNotEmpty(productRepository.findByName(productEntity.getName()))){
             throw new ProductNameDuplicateException();
         } else{
-            return productRepository.save(product);
+            return productRepository.save(productEntity);
         }
     }
 
     @Override
-    public Mono<Product> updateProduct(Product product) {
-
-        Product productToUpdate = productRepository.findByName(product.getName()).block();
-
-        productToUpdate = productMapper.productToProduct(productToUpdate, product);
-        return productRepository.save(productToUpdate);
-
+    public Mono<ProductEntity> updateProduct(ProductEntity productEntity) {
+        return productRepository.save(productEntity);
     }
 
     @Override
-    public Mono<Void> deleteProduct(Product product) {
-        return productRepository.delete(product);
+    public Mono<Void> deleteProduct(ProductEntity productEntity) {
+        return productRepository.delete(productEntity);
     }
 
     @Override
-    public Flux<Product> getProducts() {
+    public Flux<ProductEntity> getProducts() {
         return productRepository.findAll();
     }
 
     @Override
-    public Mono<Product> getProductByName(String name) {
-        Product product = productRepository.findByName(name).block();
+    public Mono<ProductEntity> getProductByName(String name) {
+        Mono<ProductEntity> product = productRepository.findByName(name);
 
-        if (product != null){
-            return productRepository.findByName(name);
+        if (ObjectUtils.isNotEmpty(product)){
+            return product;
         } else {
             throw new ProductNotFoundException();
         }
     }
 
     @Override
-    public Flux<Product> getProductByYear(Integer year) {
-        List<Product> productList = productRepository.findByYear(year).collectList().block();
+    public Flux<ProductEntity> getProductByYear(Integer year) {
+        Flux<ProductEntity> productList = productRepository.findByYear(year);
 
-        if (productList != null){
-            return productRepository.findByYear(year);
+        if (ObjectUtils.isNotEmpty(productList)){
+            return productList;
         } else {
             throw new ProductNotFoundException();
         }

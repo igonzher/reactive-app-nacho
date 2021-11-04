@@ -18,5 +18,5 @@ public class Bill {
     private Integer amount;
     private Date date;
     private Person person;
-    private Product product;
+    private ProductEntity productEntity;
 }

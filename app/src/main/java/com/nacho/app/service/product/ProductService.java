@@ -1,16 +1,16 @@
 package com.nacho.app.service.product;
 
-import com.nacho.app.model.Product;
+import com.nacho.app.model.ProductEntity;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface ProductService {
     //CRUD
-    Mono<Product> createProduct(Product product);
-    Mono<Product> updateProduct(Product product);
-    Mono<Void> deleteProduct(Product product);
-    Flux<Product> getProducts();
+    Mono<ProductEntity> createProduct(ProductEntity productEntity);
+    Mono<ProductEntity> updateProduct(ProductEntity productEntity);
+    Mono<Void> deleteProduct(ProductEntity productEntity);
+    Flux<ProductEntity> getProducts();
 
-    Mono<Product> getProductByName(String name);
-    Flux<Product> getProductByYear(Integer year);
+    Mono<ProductEntity> getProductByName(String name);
+    Flux<ProductEntity> getProductByYear(Integer year);
 }

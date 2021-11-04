@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 @Data
-public class Product {
+public class ProductEntity {
     @Id
     private String id;
 

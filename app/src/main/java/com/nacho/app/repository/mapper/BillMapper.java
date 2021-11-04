@@ -10,6 +10,7 @@ import org.mapstruct.MappingTarget;
 public interface BillMapper {
 
     Bill billToBill(Bill target);
+
     @Mapping(target = "id", ignore = true)
     Bill billToBill(@MappingTarget Bill target, Bill source);
 

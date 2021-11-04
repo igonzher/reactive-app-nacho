@@ -1,6 +1,7 @@
 package com.nacho.app.model.useCase.product;
 
 
+import com.nacho.app.model.ProductEntity;
 import com.nacho.app.repository.mapper.ProductMapperImpl;
 import com.nacho.app.service.product.ProductServiceImpl;
 import model.Product;
@@ -18,9 +19,9 @@ public class CreateProductUseCase {
         this.productMapper = personMapperModel;
     }
 
-    public Mono<Product> dispacth(com.nacho.app.model.Product product){
-        return productService.createProduct(product).map(productCreated ->
+    public Mono<Product> dispacth(ProductEntity productEntity){
+        return productService.createProduct(productEntity).map(productCreated ->
                 productMapper.productToProductApi(productCreated)
-                );
+        );
     }
 }
