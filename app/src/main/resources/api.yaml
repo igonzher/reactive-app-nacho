@@ -1,0 +1,677 @@
+openapi: 3.0.0
+info:
+  description: Person API
+  version: 1.0.0
+  title: Person API
+  contact:
+    email: igonzher@everis.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost:8080/
+    description: local host
+paths:
+  /people/name/{name}:
+    get:
+      tags:
+        - person
+      summary: Find a person by the name
+      operationId: getPersonByName
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The user name
+      responses:
+        '200':
+          description: Retrieve people
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+
+  /people/dni/{dni}:
+    get:
+      tags:
+        - person
+      summary: Find a person by the DNI
+      operationId: getPersonByDni
+      parameters:
+        - in: path
+          name: dni
+          required: true
+          schema:
+            type: string
+          description: The user DNI
+      responses:
+        '200':
+          description: Retrieve people
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+  /people:
+    get:
+      tags:
+        - person
+      summary: Find a collection of person
+      operationId: getPeople
+      responses:
+        '200':
+          description: Retrieve people
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Person'
+        '400':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - "person"
+      summary: Adds a new user
+      operationId: createPeople
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+            example:
+              dni: 74517965D
+              name: Jessica Smith
+              age: 25
+      responses:
+        '200':
+          description: "Retrieve people"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+    put:
+      tags:
+        - "person"
+      summary: Update a user
+      operationId: updatePeople
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+            example:
+              dni: 74517965D
+              name: Jessica Smith
+              age: 25
+      responses:
+        '200':
+          description: "Retrieve people"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+
+  /people/{DNI}:
+    delete:
+      tags:
+        - person
+      summary: Delete a person
+      operationId: deletePeople
+      parameters:
+        - in: path
+          name: DNI
+          required: true
+          schema:
+            type: string
+          description: The user DNI
+      responses:
+        '200':
+          description: Retrieve people
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+
+  /product:
+    get:
+      tags:
+        - product
+      summary: Find a collection of product
+      operationId: getProducts
+      responses:
+        '200':
+          description: Retrieve products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '400':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - "product"
+      summary: Adds a new product
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+            example:
+              name: coche
+              price: 200,15
+              year: 2005
+      responses:
+        '200':
+          description: "Retrieve product"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+    put:
+      tags:
+        - "product"
+      summary: Update a product
+      operationId: updateProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+            example:
+              name: coche
+              price: 200,15
+              year: 2005
+      responses:
+        '200':
+          description: "Retrieve product"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+
+  /product/{name}:
+    delete:
+      tags:
+        - product
+      summary: Delete a product
+      operationId: deleteProduct
+      parameters:
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: The product name
+      responses:
+        '200':
+          description: Retrieve product
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+
+  /bill:
+    get:
+      tags:
+        - bill
+      summary: Find a collection of Bills
+      operationId: getBills
+      responses:
+        '200':
+          description: Retrieve Bills
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Bill'
+        '400':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+        '503':
+          description: Service unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - "bill"
+      summary: Adds a new Bill
+      operationId: createBill
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bill'
+            example:
+              amount: 5000
+              date: 2017-07-21
+              person: "#/components/schemas/Person"
+              product: "#/components/schemas/Product"
+      responses:
+        '200':
+          description: "Retrieve Bill"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bill"
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+    put:
+      tags:
+        - "bill"
+      summary: Update a Bill
+      operationId: updateBill
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bill'
+            example:
+              amount: 5000
+              date: 2017-07-21
+              person: "#/components/schemas/Person"
+              product: "#/components/schemas/Product"
+      responses:
+        '200':
+          description: "Retrieve Bill"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bill"
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+  /bill/complete:
+    post:
+      tags:
+        - "bill"
+      summary: Adds a complete new Bill
+      operationId: createCompleteBill
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bill'
+            example:
+              amount: 5000
+              date: 2017-07-21
+              person: "#/components/schemas/Person"
+              product: "#/components/schemas/Product"
+      responses:
+        '200':
+          description: "Retrieve Bill"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bill"
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+
+  /bill/{billId}:
+    delete:
+      tags:
+        - bill
+      summary: Delete a bill
+      operationId: deleteBill
+      parameters:
+        - in: path
+          name: billId
+          required: true
+          schema:
+            type: integer
+          description: The bill id
+      responses:
+        '200':
+          description: delete bill
+        '400':
+          description: "BadRequest"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '500':
+          description: "Internal server error"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+        '503':
+          description: "Service unavailable"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Person:
+      type: object
+      properties:
+        dni:
+          type: string
+          example: 74658941F
+        name:
+          type: string
+          example: Nacho Gonzalez Heredia
+        age:
+          type: integer
+          format: int32
+          example: '55'
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          example: coche
+        price:
+          type: number
+          format: double
+          example: 20,10
+        year:
+          type: integer
+          format: year
+          example: 2005
+    Bill:
+      type: object
+      properties:
+        billId:
+          type: integer
+        amount:
+          type: integer
+          example: 500
+        date:
+          type: string
+          format: date
+          example: 2017-07-21
+        person:
+          $ref: "#/components/schemas/Person"
+        product:
+          $ref: "#/components/schemas/Product"
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: '32'
+        message:
+          type: string
+        description:
+          type: string
